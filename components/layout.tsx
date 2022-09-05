@@ -1,7 +1,7 @@
+import { cls } from "@libs/client/utils";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { cls } from "../libs/utils";
 interface LayoutProps {
   children: React.ReactNode;
   title?: string;

@@ -1,13 +1,13 @@
+import Layout from "@components/layout";
+import TextArea from "@components/textarea";
 import type { NextPage } from "next";
-import Layout from "../../components/layout";
-import TextArea from "../../components/textarea";
 
 const CommunityPostDetail: NextPage = () => {
   return (
-    <Layout canGoBack>
+    <Layout canGoback>
       <div>
         <span className="inline-flex my-3 ml-4 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-         Sambulo Senda
+          Sambulo Senda
         </span>
         <div className="flex mb-3 px-4 cursor-pointer pb-3  border-b items-center space-x-3">
           <div className="w-10 h-10 rounded-full bg-slate-300" />
@@ -39,7 +39,7 @@ const CommunityPostDetail: NextPage = () => {
                   d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                 ></path>
               </svg>
-              <span>I'm curious  1</span>
+              <span>I'm curious 1</span>
             </span>
             <span className="flex space-x-2 items-center text-sm">
               <svg
@@ -67,7 +67,9 @@ const CommunityPostDetail: NextPage = () => {
               <span className="text-sm block font-medium text-gray-700">
                 Steve Jebs
               </span>
-              <span className="text-xs text-gray-500 block ">2 I'm curious </span>
+              <span className="text-xs text-gray-500 block ">
+                2 I'm curious{" "}
+              </span>
               <p className="text-gray-700 mt-2">
                 The best mandu restaurant is the one next to my house.
               </p>
