@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "@prisma/client": "^4.3.1",
+    "@sendgrid/mail": "^7.7.0",
+    "iron-session": "^6.2.0",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "^7.34.2"
+    "react-hook-form": "^7.34.2",
+    "twilio": "^3.81.0"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.2",
