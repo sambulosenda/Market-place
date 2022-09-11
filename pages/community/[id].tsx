@@ -6,7 +6,9 @@ import { Answer, Post, User } from "@prisma/client";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import useSWR from "swr";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import useSWR, { mutate } from "swr";
 
 interface AnswerWithUser extends Answer {
   user: User;
@@ -27,14 +29,25 @@ interface CommunityPostResponse {
   isWondering: boolean;
 }
 
+interface AnswerForm {
+  answer: string;
+}
+
+interface AnswerResponse {
+  ok: boolean;
+  response: Answer;
+}
+
 const CommunityPostDetail: NextPage = () => {
   const router = useRouter();
+  const { register, handleSubmit, reset} = useForm<AnswerForm>();
   const { data, mutate: boundMutate } = useSWR<CommunityPostResponse>(
     router.query.id ? `/api/posts/${router.query.id}` : null
   );
 
-  const [wonder] = useMutation(`/posts/${router.query.id}/wonder`);
-
+  const [wonder, {loading}] = useMutation(`/posts/${router.query.id}/wonder`);
+  const [sendAnswer, { data: answerData, loading: answerLoading }] =
+    useMutation<AnswerResponse>(`/api/posts/${router.query.id}/answers`);
   const onWonderClick = () => {
     if (!data) return;
     boundMutate(
@@ -53,8 +66,22 @@ const CommunityPostDetail: NextPage = () => {
       },
       false
     );
-    wonder({});
+    if(!loading){
+          wonder({});
+    }
+
   };
+
+  const onValid = (form: AnswerForm) => {
+    if (answerLoading) return;
+    sendAnswer(form);
+  };
+ useEffect(() => {
+    if (answerData && answerData.ok) {
+      reset();
+      boundMutate();
+    }
+  }, [answerData, reset, boundMutate]);
 
   return (
     <Layout canGoback>
@@ -66,7 +93,7 @@ const CommunityPostDetail: NextPage = () => {
           <div className="w-10 h-10 rounded-full bg-slate-300" />
           <div>
             <p className="text-sm font-medium text-gray-700">
-              {data?.post.user.name}
+              {data?.post?.user?.name}
             </p>
             <Link href={`/users/profiles/${data?.post?.user?.id}`}>
               <a className="text-xs font-medium text-gray-500">
@@ -102,7 +129,7 @@ const CommunityPostDetail: NextPage = () => {
                   d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                 ></path>
               </svg>
-              <span>궁금해요 {data?.post._count?.wondering}</span>
+              <span>Support {data?.post?._count?.wondering}</span>
             </button>
             <span className="flex space-x-2 items-center text-sm">
               <svg
@@ -139,16 +166,16 @@ const CommunityPostDetail: NextPage = () => {
             </div>
           ))}
         </div>
-        <div className="px-4">
+        <form className="px-4" onSubmit={handleSubmit(onValid)}>
           <TextArea
             name="description"
             placeholder="Answer this question!"
             required
+            register={register("answer", { required: true, minLength: 5 })}
           />
           <button className="mt-2 w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none ">
-            Reply
-          </button>
-        </div>
+          {answerLoading ? "Loading..." : "Reply"}          </button>
+        </form>
       </div>
     </Layout>
   );

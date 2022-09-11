@@ -15,7 +15,6 @@ const Home: NextPage = () => {
   const user = useUser();
   const { data } = useSWR<ProductsResponse>("/api/products");
   console.log(data);
-
   return (
     <Layout title="Home" hasTabbar>
       <div className="flex flex-col space-y-5 divide-y">
@@ -49,6 +48,7 @@ const Home: NextPage = () => {
       </div>
     </Layout>
   );
+
 };
 
 export default Home;
