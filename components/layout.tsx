@@ -90,7 +90,7 @@ export default function Layout({
               <span>Chats</span>
             </a>
           </Link>
-          <Link href="/live">
+          <Link href="/streams">
             <a className="flex flex-col items-center space-y-2">
               <svg
                 className="w-6 h-6"
