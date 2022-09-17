@@ -12,7 +12,6 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
-
 model User {
   id        Int      @id @default(autoincrement())
   phone     String?  @unique
@@ -29,6 +28,8 @@ model User {
   wonderings Wondering[]
   streams         Stream[]
   messages        Message[]
+
+  
 }
 
 model Token {

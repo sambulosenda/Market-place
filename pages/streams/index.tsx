@@ -16,6 +16,7 @@ const Streams: NextPage = () => {
     <Layout hasTabbar title="live    ">
       <div className=" divide-y-[1px] space-y-4">
         {data?.streams.map((stream) => (
+
           <Link key={stream.id} href={`/streams/${stream.id}`}>
             <a className="pt-4 block  px-4">
               <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
@@ -26,6 +27,7 @@ const Streams: NextPage = () => {
           </Link>
         ))}
         <FloatingButton href="/streams/create">
+        
           <svg
             className="w-6 h-6"
             fill="none"
